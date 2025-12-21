@@ -17,7 +17,8 @@ npm-debug.log
 # Build artifacts
 /frontend/bundles/
 /frontend/webpack_bundles/
-/webpack-tats.json
+/webpack-stats.json
+openapi/
 
 # Generated OpenAPI client
 frontend/js/api/
