@@ -1,0 +1,31 @@
+# OS / Editor
+.DS_Store
+.vscode/
+.idea/
+
+# Environment
+.env
+.env.*
+.direnv
+.envrc
+.tool-versions
+
+# Node / npm
+node_modules/
+npm-debug.log
+
+# Build artifacts
+/frontend/bundles/
+/frontend/webpack_bundles/
+/webpack-tats.json
+
+# Generated OpenAPI client
+frontend/js/api/
+
+# Sass
+.sass-cache
+*.map
+
+# Tests / coverage
+.coverage
+/coverage/
