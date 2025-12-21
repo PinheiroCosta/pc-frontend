@@ -8,7 +8,8 @@ Este repositório é público por design.
 - Isolar responsabilidades de frontend e backend.
 - Consumir o backend exclusivamente via OpenAPI.
 - Permitir builds determinísticos e independentes.
-O frontend nunca depende do backend em tempo de build ou runtime.
+
+**Regra**: o frontend não depende do backend em tempo de build ou runtime.
 
 ### Stack
 - React
@@ -34,19 +35,21 @@ O backend atua como orquestrador de serviços.
 O frontend conhece apenas o contrato OpenAPI.
 
 ### Contrato com o Backend
-- O contrato é definido por um arquivo OpenAPI JSON.
+- O contrato é definido por um arquivo OpenAPI (YAML/JSON).
 - O schema é publicado como Release Asset no repositório do backend.
 - Este repositório não gera schema.
 - Este repositório não versiona schema.
 
-Regra fundamental:
+**Regra fundamental**:
 > Se o schema não existir ou for inválido, o build do frontend deve falhar.
 
 ### Geração do Client API
-- O client TypeScript é gerado automaticamente no CI.
+- O client TypeScript é gerado automaticamente.
 - Código gerado não deve ser editado manualmente.
-- A pasta gerada deve ser tratada como artefato derivado do contrato.
-Mudanças no backend exigem nova release para refletirem aqui.
+- O diretório `frontend/js/api` contém apenas código derivado do contrato.
+- Mudanças no backend exigem nova release para refletirem aqui.
+
+Durante desenvolvimento local, o client pode ser regenerado contra um backend local para validação rápida.
 
 ### Build e Deploy
 - O build é executado via GitHub Actions.
@@ -60,12 +63,13 @@ Mudanças no backend exigem nova release para refletirem aqui.
     - UI funcional sempre que possível.
 - O frontend não assume disponibilidade do backend.
 
-### Decisões Arquiteturais (ADR resumido)
+### Decisões Arquiteturais
 - Frontend público: intencional
 - Backend privado: intencional
 - OpenAPI como contrato único: obrigatório
-- Release Asset > Artifact: contrato permanente
-- Build desacoplado do backend: regra
+- Release Asset como fonte do schema
+- Build desacoplado do backend
+- Estrutura `frontend/js/` mantida por compatibilidade histórica
 
 ### Fora de Escopo
 - Infraestrutura do backend
