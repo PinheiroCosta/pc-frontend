@@ -20,9 +20,13 @@ const Sobre = () => {
   };
 
   useEffect(() => {
-    AboutmeService.aboutmeList().then((res) => {
-      setAboutMeData(res[0] || null);
-    });
+    AboutmeService.aboutmeList()
+      .then((res) => {
+        setAboutMeData(res[0] || null);
+      })
+      .catch(() => {
+        setAboutMeData(null);
+      });
 
     ParametrosService.parametrosRetrievePorChave({ chave: "RECAPTCHA_SITE_KEY" })
       .then((res) => setSiteKey(res.valor))
@@ -75,7 +79,7 @@ const Sobre = () => {
                       className="me-2"
                       aria-label={`Link para ${platform}`}
                     >
-                    {socialIconMap[platform] || <FaGlobe size={24} />}
+                      {socialIconMap[platform] || <FaGlobe size={24} />}
                     </a>
                   ))}
                 </div>
