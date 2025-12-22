@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import Motd from "../components/Motd";
+
+import { RestService } from "../api/services.gen";
 import LatestArticle from "../components/LatestArticle";
+import Motd from "../components/Motd";
 import RandomToolCard from "../components/RandomToolCard";
 
-import logoMain from "../../assets/images/logo-website.svg";
-import { RestService } from "../api/services.gen";
-
 const Home = () => {
-  const [restCheck, setRestCheck] =
+  const [setRestCheck] =
     useState<Awaited<ReturnType<typeof RestService.restRestCheckRetrieve>>>();
 
   useEffect(() => {
@@ -25,14 +24,14 @@ const Home = () => {
 
   return (
     <Container className="p-4" style={{ maxWidth: 960 }}>
-    <Motd />
+      <Motd />
       <Row className="justify-content-center mb-4">
         {/* Última publicação */}
-        <Col md={6} className="d-flex mb-3">
-            <LatestArticle />
+        <Col className="d-flex mb-3" md={6}>
+          <LatestArticle />
         </Col>
-        <Col md={6} className="d-flex mb-3">
-            <RandomToolCard />
+        <Col className="d-flex mb-3" md={6}>
+          <RandomToolCard />
         </Col>
       </Row>
     </Container>
