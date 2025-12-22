@@ -3,41 +3,49 @@ const path = require("path");
 const webpack = require("webpack");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const BundleTracker = require("webpack-bundle-tracker");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = (env, argv) => {
   const isDev = argv.mode === "development";
   const nodeModulesDir = path.resolve(__dirname, "node_modules");
-  const localhostOutput = {
-    path: path.resolve("./frontend/webpack_bundles/assets/"),
-    publicPath: "http://localhost:3000/frontend/assets/",
-    filename: "[name].js",
-  };
-  const productionOutput = {
-    path: path.resolve("./frontend/webpack_bundles/assets/"),
-    publicPath: "/static/assets/",
-    filename: "[name]-[chunkhash].js",
-  };
 
   return {
     mode: isDev ? "development" : "production",
-    devtool: "source-map",
+    devtool: isDev ? "eval-source-map" : "source-map",
+    context: __dirname,
+
+    entry: "./frontend/js/index.tsx",
+
+    output: {
+      path: path.resolve(__dirname, "frontend/webpack_bundles/assets"),
+      filename: isDev ? "[name].js" : "bundle.[contenthash].js",
+      publicPath: "/",
+      clean: true,
+    },
+
     devServer: {
-      hot: true,
-      historyApiFallback: true,
       host: "0.0.0.0",
       port: 3000,
-      // Allow CORS requests from the Django dev server domain:
-      headers: { "Access-Control-Allow-Origin": "*" },
+      hot: true,
+      historyApiFallback: true,
+      static: {
+        directory: path.resolve(
+          __dirname,
+          "frontend/webpack_bundles/assets"
+        ),
+        publicPath: "/",
+      },
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
     },
-    context: __dirname,
-    entry: ["./frontend/js/index.tsx"],
-    output: isDev ? localhostOutput : productionOutput,
+
     module: {
       rules: [
         {
           test: /\.(js|mjs|jsx|ts|tsx)$/,
+          exclude: /node_modules/,
           use: {
             loader: "swc-loader",
           },
@@ -61,63 +69,69 @@ module.exports = (env, argv) => {
         {
           test: /\.s[ac]ss$/i,
           use: [
-            // Creates `style` nodes from JS strings
             isDev && "style-loader",
-            // Optimizes CSS in chunks
             !isDev && MiniCssExtractPlugin.loader,
-            // Translates CSS into CommonJS
             "css-loader",
-            // Compiles Sass to CSS
             {
               loader: "sass-loader",
               options: {
                 sassOptions: {
-                  quietDeps: true, // Supress dependencies warnings
+                  quietDeps: true,
                 },
               },
             },
           ].filter(Boolean),
         },
         {
-          test: /\.(svg)(\?v=\d+\.\d+\.\d+)?$/,
+          test: /\.(svg)$/i,
           type: "asset",
         },
         {
-          test: /\.(woff(2)?|eot|ttf|otf)(\?v=\d+\.\d+\.\d+)?$/,
+          test: /\.(woff(2)?|eot|ttf|otf)$/i,
           type: "asset",
         },
         {
-          test: /\.(png|jpg|jpeg|gif|webp)?$/,
+          test: /\.(png|jpg|jpeg|gif|webp)$/i,
           type: "asset",
         },
       ],
     },
+
     plugins: [
-      !isDev &&
-      new MiniCssExtractPlugin({ filename: "[name]-[chunkhash].css" }),
-      isDev && new ReactRefreshWebpackPlugin(),
-      new BundleTracker({
-        path: __dirname,
-        filename: "webpack-stats.json",
+      new HtmlWebpackPlugin({
+        template: "./frontend/index.html",
+        filename: "index.html"
       }),
+
+      isDev && new ReactRefreshWebpackPlugin(),
+
+      !isDev &&
+      new MiniCssExtractPlugin({
+        filename: "styles.[contenthash].css",
+      }),
+
       new CopyWebpackPlugin({
         patterns: [
-            {
-                from: path.resolve(__dirname, "frontend/assets/images/favicon.ico"),
-                to: "favicon.ico",
-                noErrorOnMissing: true,
-            },
+          {
+            from: path.resolve(
+              __dirname,
+              "frontend/assets/images/favicon.ico"
+            ),
+            to: "favicon.ico",
+            noErrorOnMissing: true,
+          },
         ],
       }),
     ].filter(Boolean),
+
     resolve: {
-      modules: [nodeModulesDir, path.resolve(__dirname, "frontend/js/")],
+      modules: [nodeModulesDir, path.resolve(__dirname, "frontend/js")],
       extensions: [".js", ".jsx", ".ts", ".tsx"],
     },
+
     optimization: {
       minimize: !isDev,
       splitChunks: {
-        // include all types of chunks
         chunks: "all",
       },
     },
