@@ -3,7 +3,15 @@ const path = require("path");
 module.exports = {
   root: true,
   parser: "@typescript-eslint/parser",
-  extends: ["vinta/recommended-typescript"],
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "prettier",
+  ],
   rules: {
     "import/extensions": [
       "error",
