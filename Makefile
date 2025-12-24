@@ -1,26 +1,26 @@
-.PHONY: docker_dev docker_install docker_down docker_logs docker_openapi build docker_wipe docker_clean clean_openapi clean_webpack clean_dist clean_modules
+.PHONY: install docker_dev openapi docker_down docker_logs docker_clean clean_openapi clean_webpack clean_dist clean_modules docker_wipe
 
 SHELL := /bin/bash # Use bash syntax
 
-docker_install:
-	@echo -e "\033[32m[INFO] Instalando dependências e atualizando OpenAPI no Frontend\033[0m"
-	docker-compose -f docker-compose.dev.yml run --rm frontend npm install
+install:
+	@echo -e "\033[32m[INFO] Instalando dependências no Host\033[0m"
+	npm install
+
+docker_dev:
+	@echo -e "\033[32m[INFO] Subindo webpack-dev-server via container (deps no host)\033[0m"
+	docker-compose -f docker-compose.dev.yml up -d frontend
+
+openapi:
+	@echo -e "\033[32m[INFO] Gerando client TypeScript via OpenAPI (host)\033[0m"
+	npm run openapi-ts
 
 docker_down:
 	@echo -e "\033[32m[INFO] Parando e removendo containers\033[0m"
 	docker-compose -f docker-compose.dev.yml down --remove-orphans
 
-docker_dev:
-	@echo -e "\033[32m[INFO] Subindo ambiente de desenvolvimento\033[0m"
-	docker-compose -f docker-compose.dev.yml up -d
-
 docker_logs:
 	@echo -e "\033[32m[INFO] Exibindo logs do serviço $(ARG)\033[0m"
 	docker-compose -f docker-compose.dev.yml logs -f $(ARG)
-
-docker_openapi:
-	@echo -e "\033[32m[INFO] Atualizando clientes TypeScript com OpenAPI\033[0m"
-	docker-compose -f docker-compose.dev.yml run --rm frontend npm run openapi-ts
 
 # ======= Limpeza ========
 
