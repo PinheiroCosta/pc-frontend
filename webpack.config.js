@@ -1,6 +1,6 @@
 const path = require("path");
 
-const webpack = require("webpack");
+const Dotenv = require("dotenv-webpack");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -98,6 +98,10 @@ module.exports = (env, argv) => {
     },
 
     plugins: [
+      new Dotenv({
+        systemvars: true,
+        allowEmptyValues: false,
+      }),
       new HtmlWebpackPlugin({
         template: "./frontend/index.html",
         filename: "index.html"
