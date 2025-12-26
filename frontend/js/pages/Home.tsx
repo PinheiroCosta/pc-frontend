@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 import { RestService } from "../api/services.gen";
@@ -7,19 +7,10 @@ import Motd from "../components/Motd";
 import RandomToolCard from "../components/RandomToolCard";
 
 const Home = () => {
-  const [setRestCheck] =
-    useState<Awaited<ReturnType<typeof RestService.restRestCheckRetrieve>>>();
-
   useEffect(() => {
-    async function onFetchRestCheck() {
-      try {
-        const result = await RestService.restRestCheckRetrieve();
-        setRestCheck(result);
-      } catch (error) {
-        console.error("Erro ao buscar dados da API:", error);
-      }
-    }
-    onFetchRestCheck();
+    RestService.restRestCheckRetrieve().catch((error) => {
+      console.error("Erro ao buscar dados da API:", error);
+    });
   }, []);
 
   return (
