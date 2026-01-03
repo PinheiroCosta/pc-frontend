@@ -3,9 +3,10 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      release_branch:
-        description: 'Branch containing next release'
-        default: dev
+      pre_release:
+        description: 'Mark this release as a pre-release'
+        required: false
+        default: 'false'
 
 permissions:
   contents: write
@@ -17,10 +18,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout release branch
+      - name: Checkout release branch (main)
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.release_branch }}
+          ref: main
           fetch-depth: 0
 
       - name: Setup node
@@ -37,4 +38,5 @@ jobs:
         with:
           release-type: node
           target-branch: main
+          pre-release: ${{ github.event.inputs.pre_release }}
           package-name: romweb-frontend
