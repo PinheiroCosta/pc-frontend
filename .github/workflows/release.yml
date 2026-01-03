@@ -3,22 +3,24 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      branch:
+      release_branch:
+        description: 'Branch containing next release'
         default: dev
 
 permissions:
   contents: write
   pull-requests: write
+  id-token: write
 
 jobs:
   release:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout dev
+      - name: Checkout release branch
         uses: actions/checkout@v4
         with:
-          ref: dev
+          ref: ${{ github.event.inputs.release_branch }}
           fetch-depth: 0
 
       - name: Setup node
@@ -34,4 +36,5 @@ jobs:
         uses: googleapis/release-please-action@v4
         with:
           release-type: node
-          target-branch: dev
+          target-branch: main
+          package-name: romweb-frontend
