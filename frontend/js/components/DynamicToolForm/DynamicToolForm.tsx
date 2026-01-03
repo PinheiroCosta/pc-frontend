@@ -1,19 +1,24 @@
 import React, { useState } from "react";
 import { FaPlay, FaRedo } from "react-icons/fa";
 import { Container, Col, Card, Form, Button } from "react-bootstrap";
-import { ToolsRetrieveResponse, ProxyToolData, ProxyToolResponse } from "../../api/types.gen";
+import {
+  ToolsRetrieveResponse,
+  ProxyToolData,
+  ProxyToolResponse,
+} from "../../api/types.gen";
 import { ToolsService } from "../../api/services.gen";
 import { useToolSubmit } from "../../hooks/useToolSubmit";
 import { renderInputField } from "../DynamicInputs/InputDispatcher";
 import OutputRenderer from "../DynamicOutputs/OutputRenderer";
 import { ErrorMessage } from "../../MessageCard";
 
-
 interface DynamicToolFormProps {
   tool: ToolsRetrieveResponse;
 }
 
-const getInitialFormData = (tool: ToolsRetrieveResponse): { [key: string]: any } => {
+const getInitialFormData = (
+  tool: ToolsRetrieveResponse,
+): { [key: string]: any } => {
   const initialData: { [key: string]: any } = {};
   tool.inputs.forEach((field) => {
     switch (field.data_type) {
@@ -31,13 +36,17 @@ const getInitialFormData = (tool: ToolsRetrieveResponse): { [key: string]: any }
 };
 
 const DynamicToolForm: React.FC<DynamicToolFormProps> = ({ tool }) => {
-  const [formData, setFormData] = useState<{ [key: string]: any }>(() => getInitialFormData(tool));
+  const [formData, setFormData] = useState<{ [key: string]: any }>(() =>
+    getInitialFormData(tool),
+  );
   const { submit, loading, result, error, reset } = useToolSubmit(tool);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value, type } = e.target;
     const parsedValue = type === "number" ? parseFloat(value) : value;
-    setFormData(prev => ({ ...prev, [name]: parsedValue }));
+    setFormData((prev) => ({ ...prev, [name]: parsedValue }));
   };
 
   const handleResetForm = () => {
@@ -48,20 +57,27 @@ const DynamicToolForm: React.FC<DynamicToolFormProps> = ({ tool }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await submit(formData);
-  }
-  
+  };
+
   const isManyInputs = tool.inputs.length > 15;
 
   return (
     <Container className="d-flex justify-content-center align-items-start mt-5">
-      <Col xs={12} md={10} lg={isManyInputs ? 10 : 5} xl={isManyInputs ? 9 : undefined}>
+      <Col
+        xs={12}
+        md={10}
+        lg={isManyInputs ? 10 : 5}
+        xl={isManyInputs ? 9 : undefined}
+      >
         <Card className="shadow">
           <Card.Header className="text-center p-1 mb-1 fs-3 fw-bold">
             {tool.name.charAt(0).toUpperCase() + tool.name.slice(1)}
           </Card.Header>
           <Card.Body>
             <OutputRenderer outputs={tool.outputs} result={result} />
-            {error && <ErrorMessage title="Erro" message={error}></ErrorMessage>}
+            {error && (
+              <ErrorMessage title="Erro" message={error}></ErrorMessage>
+            )}
 
             <Form onSubmit={handleSubmit}>
               {isManyInputs ? (
@@ -72,7 +88,12 @@ const DynamicToolForm: React.FC<DynamicToolFormProps> = ({ tool }) => {
                         .filter((_, index) => index % 3 === colIndex)
                         .map((field) => (
                           <React.Fragment key={`${field.name}-${field.id}`}>
-                            {renderInputField({ field, formData, setFormData, handleChange })}
+                            {renderInputField({
+                              field,
+                              formData,
+                              setFormData,
+                              handleChange,
+                            })}
                           </React.Fragment>
                         ))}
                     </div>
@@ -81,23 +102,41 @@ const DynamicToolForm: React.FC<DynamicToolFormProps> = ({ tool }) => {
               ) : (
                 tool.inputs.map((field) => (
                   <React.Fragment key={`${field.name}-${field.id}`}>
-                    {renderInputField({ field, formData, setFormData, handleChange })}
+                    {renderInputField({
+                      field,
+                      formData,
+                      setFormData,
+                      handleChange,
+                    })}
                   </React.Fragment>
                 ))
               )}
 
               <Button type="submit" className="w-100 fs-4" disabled={loading}>
-                {loading ? "Executando..." : <> <FaPlay className="me-2" /> Executar </>}
+                {loading ? (
+                  "Executando..."
+                ) : (
+                  <>
+                    {" "}
+                    <FaPlay className="me-2" /> Executar{" "}
+                  </>
+                )}
               </Button>
               <Button
                 className="w-100 fs-4 mt-2"
                 disabled={loading}
                 onClick={handleResetForm}
               >
-                {loading ? "Executando..." : <> <FaRedo className="me-2" /> Limpar Formulário </>}
+                {loading ? (
+                  "Executando..."
+                ) : (
+                  <>
+                    {" "}
+                    <FaRedo className="me-2" /> Limpar Formulário{" "}
+                  </>
+                )}
               </Button>
             </Form>
-
           </Card.Body>
         </Card>
       </Col>
@@ -106,4 +145,3 @@ const DynamicToolForm: React.FC<DynamicToolFormProps> = ({ tool }) => {
 };
 
 export default DynamicToolForm;
-

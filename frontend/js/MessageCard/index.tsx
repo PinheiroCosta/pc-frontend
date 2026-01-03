@@ -2,7 +2,14 @@ import React from "react";
 import { Card } from "react-bootstrap";
 
 interface MessageCardProps {
-  variant: "primary" | "secondary" | "danger" | "success" | "warning" | "info" | "light";
+  variant:
+    | "primary"
+    | "secondary"
+    | "danger"
+    | "success"
+    | "warning"
+    | "info"
+    | "light";
   title: string;
   message: string;
   className?: string;
@@ -24,11 +31,20 @@ const getTextColor = (variant: string) => {
   }
 };
 
-const MessageCard: React.FC<MessageCardProps> = ({ variant, title, message, className, children }) => (
+const MessageCard: React.FC<MessageCardProps> = ({
+  variant,
+  title,
+  message,
+  className,
+  children,
+}) => (
   <Card bg={variant} text={getTextColor(variant)} className="m-2">
     <Card.Body>
       <Card.Title>{title}</Card.Title>
-      <Card.Text>{message}{children}</Card.Text>
+      <Card.Text>
+        {message}
+        {children}
+      </Card.Text>
     </Card.Body>
   </Card>
 );
@@ -50,4 +66,3 @@ export const InfoMessage = (props: Omit<MessageCardProps, "variant">) => (
 );
 
 export default MessageCard;
-

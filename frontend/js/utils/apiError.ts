@@ -2,11 +2,13 @@
  * Mensagens de erro padrão para exibição ao usuário.
  */
 const GENERIC_ERROR_MESSAGE = "Falha inesperada ao processar a requisição.";
-const NETWORK_ERROR_MESSAGE = "Falha de conexão. Verifique sua internet e tente novamente.";
+const NETWORK_ERROR_MESSAGE =
+  "Falha de conexão. Verifique sua internet e tente novamente.";
 const BAD_REQUEST_MESSAGE = "Requisição inválida.";
 const VALIDATION_ERROR_MESSAGE = "Erro de validação nos dados enviados.";
 const NOT_FOUND_MESSAGE = "Recurso não encontrado.";
-const SERVER_ERROR_MESSAGE = "Erro interno no servidor. Tente novamente mais tarde.";
+const SERVER_ERROR_MESSAGE =
+  "Erro interno no servidor. Tente novamente mais tarde.";
 
 /**
  * Interface padrão para erro detalhado da API.
@@ -44,7 +46,7 @@ function isApiError(error: any): error is ApiError {
     typeof error.status === "number" &&
     typeof error.body === "object" &&
     error.body !== null &&
-    ("detail" in error.body)
+    "detail" in error.body
   );
 }
 
@@ -67,7 +69,7 @@ function formatDetailArray(detail: ApiErrorDetail[], showLoc = false): string {
   if (!Array.isArray(detail)) return "";
   return detail
     .map((d) =>
-      showLoc && Array.isArray(d.loc) ? `${d.loc.join(".")}: ${d.msg}` : d.msg
+      showLoc && Array.isArray(d.loc) ? `${d.loc.join(".")}: ${d.msg}` : d.msg,
     )
     .join("; ");
 }

@@ -43,7 +43,7 @@ const OutputRenderer: React.FC<OutputRendererProps> = ({ outputs, result }) => {
         const value = getDisplayValue(result[field.name], field.data_type);
         return (
           <Card bg="light" key={`output-${field.name}`} className="mb-2">
-           <Card.Body
+            <Card.Body
               className="p-2 position-relative"
               style={{
                 display: "flex",
@@ -61,14 +61,22 @@ const OutputRenderer: React.FC<OutputRendererProps> = ({ outputs, result }) => {
                 size="sm"
                 onClick={() => handleCopy(field.name, value)}
                 className="p-0 position-absolute"
-                style={{ bottom: 4, right: 4, lineHeight: 1, cursor: "pointer", color: 'white'}}
+                style={{
+                  bottom: 4,
+                  right: 4,
+                  lineHeight: 1,
+                  cursor: "pointer",
+                  color: "white",
+                }}
                 title="Copiar"
               >
                 <FiClipboard size={16} />
               </Button>
-            </Card.Body> 
+            </Card.Body>
             {copiedField === field.name && (
-              <div className="text-success text-center small mb-1">Copiado!</div>
+              <div className="text-success text-center small mb-1">
+                Copiado!
+              </div>
             )}
           </Card>
         );
@@ -78,4 +86,3 @@ const OutputRenderer: React.FC<OutputRendererProps> = ({ outputs, result }) => {
 };
 
 export default OutputRenderer;
-

@@ -7,5 +7,7 @@ export const getPreview = (htmlContent: string, maxLength = 200): string => {
 
   const truncated = plainText.substring(0, maxLength);
   const lastSpace = truncated.lastIndexOf(" ");
-  return (lastSpace > 0 ? truncated.substring(0, lastSpace) : truncated) + "...";
+  return (
+    (lastSpace > 0 ? truncated.substring(0, lastSpace) : truncated) + "..."
+  );
 };

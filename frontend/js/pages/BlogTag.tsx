@@ -4,7 +4,6 @@ import BlogList from "../components/BlogList";
 import type { BlogPost } from "../api/types.gen";
 import { BlogService } from "../api/services.gen";
 
-
 const BlogTag = () => {
   const { tag } = useParams();
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -24,7 +23,7 @@ const BlogTag = () => {
         setError("Erro ao buscar posts");
       })
       .finally(() => setLoading(false));
-      }, [tag]);
+  }, [tag]);
 
   return (
     <>
@@ -35,4 +34,3 @@ const BlogTag = () => {
 };
 
 export default BlogTag;
-

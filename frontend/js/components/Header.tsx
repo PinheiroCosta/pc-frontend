@@ -9,26 +9,29 @@ const Header = () => {
       <Container>
         <Nav
           className="align-items-center text-uppercase fw-bold mx-auto"
-          style={{
-          }}>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" className="m-1" />
-          <Navbar.Collapse id="responsive-navbar-nav" >
-          <CustomNavLink to="/" >Home</CustomNavLink>
-          <CustomNavLink to="/blog">Blog</CustomNavLink>
-          <Navbar.Brand className="mx-auto d-none d-md-block logo">
-            <CustomNavLink to="/" >
-              <img
-                src={logoMain}
-                alt="PinheiroCosta"
-                style={{
-                  borderRadius: "50%",
-                  width: "180px",
-                }}
-              />
-            </CustomNavLink>
-          </Navbar.Brand>
-          <CustomNavLink to="/tools" >Tools</CustomNavLink>
-          <CustomNavLink to="/sobre">Sobre</CustomNavLink>
+          style={{}}
+        >
+          <Navbar.Toggle
+            aria-controls="responsive-navbar-nav"
+            className="m-1"
+          />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <CustomNavLink to="/">Home</CustomNavLink>
+            <CustomNavLink to="/blog">Blog</CustomNavLink>
+            <Navbar.Brand className="mx-auto d-none d-md-block logo">
+              <CustomNavLink to="/">
+                <img
+                  src={logoMain}
+                  alt="PinheiroCosta"
+                  style={{
+                    borderRadius: "50%",
+                    width: "180px",
+                  }}
+                />
+              </CustomNavLink>
+            </Navbar.Brand>
+            <CustomNavLink to="/tools">Tools</CustomNavLink>
+            <CustomNavLink to="/sobre">Sobre</CustomNavLink>
           </Navbar.Collapse>
         </Nav>
       </Container>
@@ -37,4 +40,3 @@ const Header = () => {
 };
 
 export default Header;
-

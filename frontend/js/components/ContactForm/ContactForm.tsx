@@ -5,7 +5,7 @@ import { ErrorMessage, SuccessMessage } from "../../MessageCard";
 import type { useContactFormLogic } from "./useContactFormLogic";
 
 type ContactFormProps = ReturnType<typeof useContactFormLogic> & {
-    siteKey: string;
+  siteKey: string;
 };
 
 export default function ContactForm({
@@ -19,7 +19,9 @@ export default function ContactForm({
   handleSubmit,
 }: ContactFormProps) {
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) => {
     const { name, value } = e.target;
 
@@ -39,10 +41,10 @@ export default function ContactForm({
 
   if (success) {
     return (
-        <SuccessMessage 
-            title="Mensagem enviada!" 
-            message="Obrigado pelo contato. Retornarei a mensagem assim que possível." 
-        />
+      <SuccessMessage
+        title="Mensagem enviada!"
+        message="Obrigado pelo contato. Retornarei a mensagem assim que possível."
+      />
     );
   }
 
@@ -104,15 +106,16 @@ export default function ContactForm({
             />
           </Form.Group>
 
-
-      {error && <ErrorMessage title="Erro" message={error} />}
+          {error && <ErrorMessage title="Erro" message={error} />}
           <Button
             variant="primary"
             type="submit"
             disabled={isSending}
             className="d-flex align-items-center"
           >
-            {isSending && <Spinner animation="border" size="sm" className="me-2" />}
+            {isSending && (
+              <Spinner animation="border" size="sm" className="me-2" />
+            )}
             <FaPaperPlane style={{ marginRight: 8 }} />
             {isSending ? "Enviando..." : "Enviar"}
           </Button>
@@ -121,4 +124,3 @@ export default function ContactForm({
     </Card>
   );
 }
-

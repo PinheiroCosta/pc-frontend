@@ -8,7 +8,7 @@ const Footer = () => {
       <Container>
         <Row xs="auto" className="justify-content-center mb-2">
           {/* Links para redes sociais */}
-          <Col >
+          <Col>
             <a
               href="https://www.github.com/pinheirocosta"
               target="_blank"
@@ -19,7 +19,7 @@ const Footer = () => {
               <FaGithub size={24} className="icon-social" />
             </a>
           </Col>
-          <Col >
+          <Col>
             <a
               href="https://www.instagram.com/rompinheiro"
               target="_blank"
@@ -30,7 +30,7 @@ const Footer = () => {
               <FaInstagram size={24} className="icon-social" />
             </a>
           </Col>
-          <Col >
+          <Col>
             <a
               href="https://www.linkedin.com/in/pinheirocosta"
               target="_blank"
@@ -46,18 +46,19 @@ const Footer = () => {
         <Row className="footer-text">
           <Col className="text-center">
             <small className="text-muted">
-              © {new Date().getFullYear()} PinheiroCosta.
-              Todos os direitos reservados.
+              © {new Date().getFullYear()} PinheiroCosta. Todos os direitos
+              reservados.
             </small>
           </Col>
         </Row>
         <Row className="footer-text">
           <Col className="text-center">
             <small className="text-muted">
-             Ao utilizar este site, você concorda com nossa{" "}
+              Ao utilizar este site, você concorda com nossa{" "}
               <a href="/privacidade" className="text-decoration-underline">
-                 Política de Privacidade
-              </a>.
+                Política de Privacidade
+              </a>
+              .
             </small>
           </Col>
         </Row>
@@ -67,4 +68,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { ToolsService } from "../api/services.gen";
-import { ProxyToolData, ProxyToolResponse, ToolsRetrieveResponse } from "../api/types.gen";
+import {
+  ProxyToolData,
+  ProxyToolResponse,
+  ToolsRetrieveResponse,
+} from "../api/types.gen";
 import { parseApiError } from "../utils/apiError";
-
 
 export function useToolSubmit(tool: ToolsRetrieveResponse) {
   const [loading, setLoading] = useState(false);
@@ -10,8 +13,8 @@ export function useToolSubmit(tool: ToolsRetrieveResponse) {
   const [error, setError] = useState<string | null>(null);
 
   const reset = () => {
-      setResult(null);
-      setError(null);
+    setResult(null);
+    setError(null);
   };
 
   const submit = async (formData: Record<string, any>) => {
@@ -59,4 +62,3 @@ export function useToolSubmit(tool: ToolsRetrieveResponse) {
 
   return { submit, loading, result, error, reset };
 }
-

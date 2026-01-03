@@ -2,14 +2,17 @@ import React from "react";
 import { Form } from "react-bootstrap";
 import { ToolField } from "../../api/types.gen";
 
-
 interface SelectInputProps {
-    field: ToolField
-    value: string | number;
-    onChange: (name: string, value: string | number) => void;
+  field: ToolField;
+  value: string | number;
+  onChange: (name: string, value: string | number) => void;
 }
 
-export const SelectInput: React.FC<SelectInputProps> = ({ field, value, onChange }) => {
+export const SelectInput: React.FC<SelectInputProps> = ({
+  field,
+  value,
+  onChange,
+}) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const rawValue = e.target.value;
 
@@ -23,7 +26,11 @@ export const SelectInput: React.FC<SelectInputProps> = ({ field, value, onChange
   };
 
   return (
-    <Form.Group className="mb-1" controlId={field.name} key={`select-${field.name}`}>
+    <Form.Group
+      className="mb-1"
+      controlId={field.name}
+      key={`select-${field.name}`}
+    >
       <Form.Label title={field.help_text}>{field.label}</Form.Label>
       <Form.Select
         name={field.name}
@@ -42,4 +49,3 @@ export const SelectInput: React.FC<SelectInputProps> = ({ field, value, onChange
 };
 
 export default SelectInput;
-

@@ -16,9 +16,9 @@ const RandomToolCard: React.FC = () => {
         const result = await ToolsService.toolsRandomRetrieve();
         setTool(result);
       } catch (err) {
-          console.warn("Erro ao buscar ferramenta:", err);
+        console.warn("Erro ao buscar ferramenta:", err);
       } finally {
-          setLoading(false);
+        setLoading(false);
       }
     }
     fetchRandomTool();
@@ -26,14 +26,22 @@ const RandomToolCard: React.FC = () => {
 
   return (
     <Card className="text-start h-100 w-100" style={{ minHeight: "300px" }}>
-      <Card.Header className="text-center mb-2 pb-3 pt-3 fs-5">Ferramenta em Destaque</Card.Header>
+      <Card.Header className="text-center mb-2 pb-3 pt-3 fs-5">
+        Ferramenta em Destaque
+      </Card.Header>
       <Card.Body className="d-flex flex-column">
         {loading ? (
-          <div style={{ flexGrow: 1 }} className="d-flex align-items-center justify-content-center text-muted">
+          <div
+            style={{ flexGrow: 1 }}
+            className="d-flex align-items-center justify-content-center text-muted"
+          >
             Carregando ferramenta...
           </div>
         ) : error ? (
-          <div style={{ flexGrow: 1 }} className="d-flex align-items-center justify-content-center text-danger">
+          <div
+            style={{ flexGrow: 1 }}
+            className="d-flex align-items-center justify-content-center text-danger"
+          >
             Não foi possível carregar as ferramentas no momento.
           </div>
         ) : tool ? (
@@ -51,7 +59,10 @@ const RandomToolCard: React.FC = () => {
             </div>
           </>
         ) : (
-          <div style={{ flexGrow: 1 }} className="d-flex align-items-center justify-content-center text-muted">
+          <div
+            style={{ flexGrow: 1 }}
+            className="d-flex align-items-center justify-content-center text-muted"
+          >
             Nenhuma ferramenta disponível no momento.
           </div>
         )}
@@ -61,4 +72,3 @@ const RandomToolCard: React.FC = () => {
 };
 
 export default RandomToolCard;
-

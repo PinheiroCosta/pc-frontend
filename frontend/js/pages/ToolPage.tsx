@@ -10,7 +10,7 @@ const ToolPage = () => {
   const navigate = useNavigate();
 
   const [tool, setTool] = useState<ToolsRetrieveResponse | null>(
-    location.state?.tool || null
+    location.state?.tool || null,
   );
 
   useEffect(() => {
@@ -34,4 +34,3 @@ const ToolPage = () => {
 };
 
 export default ToolPage;
-

@@ -3,7 +3,7 @@ import { Container, Row, Col, Image, Card } from "react-bootstrap";
 import ContactForm from "../components/ContactForm";
 import { AboutmeService, ParametrosService } from "../api/services.gen";
 import BuyMeACoffee from "../components/BuyMeACoffeeButton";
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { FaGithub, FaInstagram, FaLinkedin, FaGlobe } from "react-icons/fa";
 import type { AboutmeListResponse, AboutMe } from "../api/types.gen";
 
@@ -28,14 +28,16 @@ const Sobre = () => {
         setAboutMeData(null);
       });
 
-    ParametrosService.parametrosRetrievePorChave({ chave: "RECAPTCHA_SITE_KEY" })
+    ParametrosService.parametrosRetrievePorChave({
+      chave: "RECAPTCHA_SITE_KEY",
+    })
       .then((res) => setSiteKey(res.valor))
       .catch(() => setCaptchaError("Falha ao carregar reCAPTCHA."));
   }, []);
 
   return (
     <Container>
-      <Row className="mt-5 justify-content-center align-items-center" >
+      <Row className="mt-5 justify-content-center align-items-center">
         <Col md={3} className="text-center mb-2">
           {aboutMeData?.about_image ? (
             <Image
@@ -64,24 +66,28 @@ const Sobre = () => {
               <Card.Text
                 className="text-justify"
                 dangerouslySetInnerHTML={{
-                  __html: aboutMeData?.about_text || "<p class='text-muted'>Carregando informações...</p>",
+                  __html:
+                    aboutMeData?.about_text ||
+                    "<p class='text-muted'>Carregando informações...</p>",
                 }}
               />
               <BuyMeACoffee className="text-end" />
               {aboutMeData?.social_links && (
-                <div className="social-links mt-3" >
-                  {Object.entries(aboutMeData.social_links).map(([platform, link]) => (
-                    <a
-                      key={platform}
-                      href={link as string}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="me-2"
-                      aria-label={`Link para ${platform}`}
-                    >
-                      {socialIconMap[platform] || <FaGlobe size={24} />}
-                    </a>
-                  ))}
+                <div className="social-links mt-3">
+                  {Object.entries(aboutMeData.social_links).map(
+                    ([platform, link]) => (
+                      <a
+                        key={platform}
+                        href={link as string}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="me-2"
+                        aria-label={`Link para ${platform}`}
+                      >
+                        {socialIconMap[platform] || <FaGlobe size={24} />}
+                      </a>
+                    ),
+                  )}
                 </div>
               )}
             </Card.Body>
@@ -93,9 +99,10 @@ const Sobre = () => {
         <Col md={{ span: 6, offset: 3 }}>
           <div className="mb-5 mt-5 text-justify">
             <p className="text-muted">
-              Este site é open source — sinta-se livre para explorar e usar partes do código.
-              Estou aberto a colaborações em projetos de código aberto e também disponível para trabalho profissional.
-              Se quiser trocar uma ideia ou propor algo, é só me chamar.
+              Este site é open source — sinta-se livre para explorar e usar
+              partes do código. Estou aberto a colaborações em projetos de
+              código aberto e também disponível para trabalho profissional. Se
+              quiser trocar uma ideia ou propor algo, é só me chamar.
             </p>
           </div>
 
@@ -116,4 +123,3 @@ const Sobre = () => {
 };
 
 export default Sobre;
-

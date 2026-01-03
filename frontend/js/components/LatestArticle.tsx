@@ -26,25 +26,36 @@ const LatestArticle: React.FC = () => {
 
   return (
     <Card className="text-start h-100 w-100" style={{ minHeight: "300px" }}>
-      <Card.Header className="text-center mb-2 pb-3 pt-3 fs-5">Última Publicação</Card.Header>
+      <Card.Header className="text-center mb-2 pb-3 pt-3 fs-5">
+        Última Publicação
+      </Card.Header>
       <Card.Body className="d-flex flex-column">
         {loading ? (
-          <div style={{ flexGrow: 1 }} className="d-flex align-items-center justify-content-center text-muted">
+          <div
+            style={{ flexGrow: 1 }}
+            className="d-flex align-items-center justify-content-center text-muted"
+          >
             Carregando...
           </div>
         ) : latestPost ? (
           <>
             <h2 className="fs-5">
-              <Link className="nav-link text-center" to={`/blog/${latestPost.slug}`}>
+              <Link
+                className="nav-link text-center"
+                to={`/blog/${latestPost.slug}`}
+              >
                 {latestPost.titulo}
               </Link>
             </h2>
             <Card.Text className="mt-2">
-            {getPreview(latestPost.conteudo)}
+              {getPreview(latestPost.conteudo)}
             </Card.Text>
           </>
         ) : (
-          <div style={{ flexGrow: 1 }} className="d-flex align-items-center justify-content-center text-muted">
+          <div
+            style={{ flexGrow: 1 }}
+            className="d-flex align-items-center justify-content-center text-muted"
+          >
             Nenhum artigo encontrado.
           </div>
         )}
@@ -54,4 +65,3 @@ const LatestArticle: React.FC = () => {
 };
 
 export default LatestArticle;
-

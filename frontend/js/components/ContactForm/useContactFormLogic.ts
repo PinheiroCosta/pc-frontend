@@ -46,20 +46,29 @@ export function useContactFormLogic(siteKey: string) {
       if (!window.grecaptcha || !window.grecaptcha.execute) {
         throw new Error("reCAPTCHA não carregado.");
       }
-      token = await window.grecaptcha.execute(siteKey, { action: "contact_form" });
+      token = await window.grecaptcha.execute(siteKey, {
+        action: "contact_form",
+      });
     } catch (error) {
-        setError("Erro ao executar o reCAPTCHA. Verifique Adblockers ou tente recarregar a página.");
-        setIsSending(false);
-        return;
+      setError(
+        "Erro ao executar o reCAPTCHA. Verifique Adblockers ou tente recarregar a página.",
+      );
+      setIsSending(false);
+      return;
     }
 
     // Envia Formulário
     try {
       const payload = { ...formData, recaptcha_token: token };
-      await ContatoProfissionalService.contatoProfissionalCreate({ requestBody: payload });
+      await ContatoProfissionalService.contatoProfissionalCreate({
+        requestBody: payload,
+      });
       setSuccess(true);
     } catch (err: any) {
-      setError(err?.message ?? "Erro ao enviar o formulário. Desative Adblocker ou similares.");
+      setError(
+        err?.message ??
+          "Erro ao enviar o formulário. Desative Adblocker ou similares.",
+      );
     } finally {
       setIsSending(false);
     }
@@ -78,4 +87,3 @@ export function useContactFormLogic(siteKey: string) {
     handleSubmit,
   };
 }
-

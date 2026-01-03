@@ -5,7 +5,6 @@ import { ErrorMessage } from "../MessageCard";
 import { BlogService } from "../api/services.gen";
 import { BlogPost } from "../api/types.gen";
 
-
 const Blog = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -35,17 +34,23 @@ const Blog = () => {
   }, [currentPage]);
 
   if (error) {
-    return <ErrorMessage title="Error" message={error} ></ErrorMessage>;
+    return <ErrorMessage title="Error" message={error}></ErrorMessage>;
   }
 
   return (
     <>
       <h2 className="my-4 text-center mb-5 mt-2">Publicações Recentes</h2>
       <BlogList posts={posts} loading={loading} error={error} />
-      <Pagination currentPage={currentPage} pageSize={pageSize} count={count} hasNext={hasNext} hasPrevious={hasPrevious} onPageChange={setCurrentPage} />
+      <Pagination
+        currentPage={currentPage}
+        pageSize={pageSize}
+        count={count}
+        hasNext={hasNext}
+        hasPrevious={hasPrevious}
+        onPageChange={setCurrentPage}
+      />
     </>
-  )
+  );
 };
 
 export default Blog;
-

@@ -9,7 +9,7 @@
 @import "pages/all";
 
 body {
-    background-color:$websiteBackgroundColor;
+  background-color: $websiteBackgroundColor;
 }
 
 a {
@@ -17,11 +17,11 @@ a {
 }
 
 .card {
-    background-color: $bege-claro;
+  background-color: $bege-claro;
 }
 
 .icon-code-branch {
-    color: $verde;
+  color: $verde;
 }
 
 .icon-social {
@@ -29,44 +29,46 @@ a {
 }
 
 .nav-link {
-    color: $verde;
-    border-radius: 5px;
+  color: $verde;
+  border-radius: 5px;
 }
 
 .nav-link.active {
-    background-color: $verde;
-    color: $websiteBackgroundColor !important;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), 0 1px 5px rgba(0, 0, 0, .5);
-    text-shadow: 0 1px 0 rgba(255, 255, 255, .3);
+  background-color: $verde;
+  color: $websiteBackgroundColor !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 1px 5px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .nav-link.active:has(img) {
-    background-color: transparent;
-    color: initial;
-    box-shadow: none;
-    text-shadow: none;
+  background-color: transparent;
+  color: initial;
+  box-shadow: none;
+  text-shadow: none;
 }
 
 .footer-text a {
-    color: $verde;
+  color: $verde;
 }
 
 // Cores
 
 .fg-primary {
-  color: $verde
+  color: $verde;
 }
 
 .bg-primary {
-  background-color: $verde
+  background-color: $verde;
 }
 
 .fg-secondary {
-  color: $bege
+  color: $bege;
 }
 
 .bg-secondary {
-  background-color: $bege
+  background-color: $bege;
 }
 
 // Texto
@@ -117,7 +119,9 @@ a {
 
 // Cards
 .card {
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 .card-header {
   margin: 0;
@@ -126,7 +130,9 @@ a {
 // Table
 .table-wrapper {
   border-radius: 10px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 table {
   border-collapse: separate;
@@ -145,9 +151,9 @@ table thead tr th:last-child {
 table tbody tr td {
   background-color: $bege-claro !important;
 }
-table tbody tr:last-child td:last-child{
+table tbody tr:last-child td:last-child {
   border-bottom-right-radius: 10px;
 }
-table tbody tr:last-child td:nth-last-child(2){
+table tbody tr:last-child td:nth-last-child(2) {
   border-bottom-left-radius: 10px;
 }

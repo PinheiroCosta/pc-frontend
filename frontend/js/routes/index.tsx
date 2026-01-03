@@ -17,19 +17,75 @@ const AppRoutes = () => (
   <Router>
     <Routes>
       <Route element={<MainLayout />}>
-          {/* Navbar */}
-          <Route path="/" element={<Home />} />
-          <Route path="/blog" element={<React.Suspense fallback={<p>Carregando...</p>}><Blog /></React.Suspense>} />
-          <Route path="/tools" element={<React.Suspense fallback={<p>Carregando...</p>}><Tools /></React.Suspense>} />
-          <Route path="/sobre" element={<React.Suspense fallback={<p>Carregando...</p>}><Sobre /></React.Suspense>} />
-          <Route path="/privacidade" element={<React.Suspense fallback={<p>Carregando...</p>}><PrivacyPolicy /></React.Suspense>} />
-          {/* Blog  */}
-          <Route path="/blog/tag/:tag" element={<React.Suspense fallback={<p>Carregando...</p>}><BlogTag /></React.Suspense>} />
-          <Route path="/blog/:slug" element={<React.Suspense fallback={<p>Carregando...</p>}><BlogPostPage /></React.Suspense>} />
-          {/* Ferramentas */}
-          <Route path="/tools/:slug" element={<React.Suspense fallback={<p>Carregando...</p>}><ToolPage /></React.Suspense>} />
-          {/* Catch-all para 404 */}
-          <Route path="*" element={<React.Suspense fallback={<p>Carregando...</p>}><NotFound /></React.Suspense>} />
+        {/* Navbar */}
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/blog"
+          element={
+            <React.Suspense fallback={<p>Carregando...</p>}>
+              <Blog />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/tools"
+          element={
+            <React.Suspense fallback={<p>Carregando...</p>}>
+              <Tools />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/sobre"
+          element={
+            <React.Suspense fallback={<p>Carregando...</p>}>
+              <Sobre />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/privacidade"
+          element={
+            <React.Suspense fallback={<p>Carregando...</p>}>
+              <PrivacyPolicy />
+            </React.Suspense>
+          }
+        />
+        {/* Blog  */}
+        <Route
+          path="/blog/tag/:tag"
+          element={
+            <React.Suspense fallback={<p>Carregando...</p>}>
+              <BlogTag />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/blog/:slug"
+          element={
+            <React.Suspense fallback={<p>Carregando...</p>}>
+              <BlogPostPage />
+            </React.Suspense>
+          }
+        />
+        {/* Ferramentas */}
+        <Route
+          path="/tools/:slug"
+          element={
+            <React.Suspense fallback={<p>Carregando...</p>}>
+              <ToolPage />
+            </React.Suspense>
+          }
+        />
+        {/* Catch-all para 404 */}
+        <Route
+          path="*"
+          element={
+            <React.Suspense fallback={<p>Carregando...</p>}>
+              <NotFound />
+            </React.Suspense>
+          }
+        />
       </Route>
     </Routes>
   </Router>

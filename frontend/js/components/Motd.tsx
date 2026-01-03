@@ -8,8 +8,9 @@ const Motd = () => {
 
   useEffect(() => {
     const fetchMotd = async () => {
-      let messageHtml = "<p><em>Hoje não temos uma mensagem especial... Mas segue o jogo!</em></p>";
-  
+      let messageHtml =
+        "<p><em>Hoje não temos uma mensagem especial... Mas segue o jogo!</em></p>";
+
       try {
         const config = await MotdConfigService.motdConfigSingletonRetrieve();
         if (config?.message_override_text) {
@@ -22,7 +23,7 @@ const Motd = () => {
         }
       } catch (error: any) {
         const status = error?.status;
-  
+
         if (status === 404) {
           try {
             const motds = await MotdService.motdRandomRetrieve();
@@ -40,7 +41,7 @@ const Motd = () => {
         setLoading(false);
       }
     };
-  
+
     fetchMotd();
   }, []);
 
@@ -50,13 +51,15 @@ const Motd = () => {
         <Row>
           <Col md={4} className="my-auto">
             <div className="d-flex mb-2 justify-content-end">
-              <div title="Mensagem do dia" className="px-2 py-1 fw-bold fs-5 border border-dark rounded">
+              <div
+                title="Mensagem do dia"
+                className="px-2 py-1 fw-bold fs-5 border border-dark rounded"
+              >
                 MOTD
               </div>
             </div>
           </Col>
           <Col md={5} className="text-start ">
-
             {loading ? (
               <Spinner animation="border" variant="secondary" />
             ) : (
@@ -73,4 +76,3 @@ const Motd = () => {
 };
 
 export default Motd;
-

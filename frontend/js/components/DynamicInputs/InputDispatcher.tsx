@@ -31,8 +31,12 @@ export const renderInputField = ({
       return (
         <BoolInput
           field={field}
-          value={formData[field.name] !== undefined ? formData[field.name] : true}
-          onChange={(name: string, val: any) => setFormData((prev) => ({ ...prev, [name]: val }))}
+          value={
+            formData[field.name] !== undefined ? formData[field.name] : true
+          }
+          onChange={(name: string, val: any) =>
+            setFormData((prev) => ({ ...prev, [name]: val }))
+          }
         />
       );
     case "textarea":
@@ -43,7 +47,9 @@ export const renderInputField = ({
           name={field.name}
           label={field.label}
           value={formData[field.name] || ""}
-          onChange={(value) => setFormData({ ...formData, [field.name]: value })}
+          onChange={(value) =>
+            setFormData({ ...formData, [field.name]: value })
+          }
         />
       );
     case "number":
@@ -52,7 +58,11 @@ export const renderInputField = ({
       break;
     case "float":
       return (
-        <Form.Group className="mb-1" controlId={field.name} key={`${widget}-${field.name}`}>
+        <Form.Group
+          className="mb-1"
+          controlId={field.name}
+          key={`${widget}-${field.name}`}
+        >
           <Form.Label className="fw-bold">{field.label}</Form.Label>
           <Form.Control type="number" {...commonProps} />
         </Form.Group>
@@ -62,7 +72,11 @@ export const renderInputField = ({
         <RadioInput
           field={field}
           value={formData[field.name] ?? {}}
-          possibleValues={field.max_value ? Array.from({ length: field.max_value }, (_, i) => i + 1) : []}
+          possibleValues={
+            field.max_value
+              ? Array.from({ length: field.max_value }, (_, i) => i + 1)
+              : []
+          }
           onChange={(name, updatedDict) =>
             setFormData((prev) => ({ ...prev, [name]: updatedDict }))
           }
@@ -73,12 +87,18 @@ export const renderInputField = ({
         <SelectInput
           field={field}
           value={formData[field.name]}
-          onChange={(name: string, value: any) => setFormData((prev) => ({ ...prev, [name]: value }))}
+          onChange={(name: string, value: any) =>
+            setFormData((prev) => ({ ...prev, [name]: value }))
+          }
         />
       );
     case "input":
       return (
-        <Form.Group className="mb-1" controlId={field.name} key={`${widget}-${field.name}`}>
+        <Form.Group
+          className="mb-1"
+          controlId={field.name}
+          key={`${widget}-${field.name}`}
+        >
           <Form.Label>{field.label}</Form.Label>
           <Form.Control
             type="text"
@@ -94,4 +114,3 @@ export const renderInputField = ({
       return null;
   }
 };
-

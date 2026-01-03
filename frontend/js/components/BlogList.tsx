@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Card, Spinner } from "react-bootstrap";
-import CustomNavLink from "./CustomNavLink"; 
+import CustomNavLink from "./CustomNavLink";
 import { Link } from "react-router-dom";
 import { getPreview } from "../utils/textUtils";
 import type { BlogPost } from "../api/types.gen";
@@ -72,4 +72,3 @@ const BlogList: React.FC<BlogListProps> = ({ posts, loading, error }) => {
 };
 
 export default BlogList;
-
