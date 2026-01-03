@@ -18,7 +18,7 @@
     "format": "prettier --write frontend",
     "format:check": "prettier --check frontend",
     "tsc": "tsc -p ./tsconfig.json --noEmit",
-    "openapi:download": "node scripts/openapi-download.mjs $(cat openapi/CONTRACT_VERSION)",
+    "openapi:download": "node scripts/openapi-download.mjs",
     "openapi:ts": "openapi-ts"
   },
   "dependencies": {
