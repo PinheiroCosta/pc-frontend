@@ -1,8 +1,10 @@
 name: Release
 
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
+    inputs:
+      branch:
+        default: dev
 
 permissions:
   contents: write
@@ -11,9 +13,25 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+
     steps:
-      - name:
+      - name: Checkout dev
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          fetch-depth:0
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run release-please
         uses: googleapis/release-please-action@v4
         with:
           release-type: node
-          target-branch: main
+          target-branch: dev
