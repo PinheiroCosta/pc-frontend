@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Container, Row, Col, Image, Card } from "react-bootstrap";
 import ContactForm from "../components/ContactForm";
 import { AboutmeService, ParametrosService } from "../api/services.gen";
 import BuyMeACoffee from "../components/BuyMeACoffeeButton";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { FaGithub, FaInstagram, FaLinkedin, FaGlobe } from "react-icons/fa";
-import type { AboutmeListResponse, AboutMe } from "../api/types.gen";
+import type { AboutMe } from "../api/types.gen";
 
 const Sobre = () => {
   const [aboutMeData, setAboutMeData] = useState<AboutMe | null>(null);

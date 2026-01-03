@@ -5,7 +5,6 @@ import BlogTag from "../pages/BlogTag";
 import BlogPostPage from "../pages/BlogPostPage";
 import MainLayout from "../layouts/MainLayout";
 import ToolPage from "../pages/ToolPage";
-import NotFoundPage from "../pages/NotFoundPage";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
 
 const Blog = React.lazy(() => import("../pages/Blog"));

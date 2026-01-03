@@ -8,7 +8,7 @@ import { ToolsRetrieveResponse } from "../api/types.gen";
 const RandomToolCard: React.FC = () => {
   const [tool, setTool] = useState<ToolsRetrieveResponse | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [error] = useState(false);
 
   useEffect(() => {
     async function fetchRandomTool() {

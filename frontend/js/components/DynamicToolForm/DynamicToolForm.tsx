@@ -3,10 +3,7 @@ import { FaPlay, FaRedo } from "react-icons/fa";
 import { Container, Col, Card, Form, Button } from "react-bootstrap";
 import {
   ToolsRetrieveResponse,
-  ProxyToolData,
-  ProxyToolResponse,
 } from "../../api/types.gen";
-import { ToolsService } from "../../api/services.gen";
 import { useToolSubmit } from "../../hooks/useToolSubmit";
 import { renderInputField } from "../DynamicInputs/InputDispatcher";
 import OutputRenderer from "../DynamicOutputs/OutputRenderer";
