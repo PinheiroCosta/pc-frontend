@@ -2,6 +2,11 @@ name: Release
 
 on:
   workflow_dispatch:
+    inputs:
+      pre_release:
+        description: 'Mark this release as a pre-release'
+        required: false
+        default: 'false'
 
 permissions:
   contents: write
@@ -33,4 +38,5 @@ jobs:
         with:
           release-type: node
           target-branch: main
+          pre-release: ${{ github.event.inputs.pre_release }}
           package-name: romweb-frontend
