@@ -9,9 +9,6 @@
   "browserslist": "> 0.25%, not dead",
   "main": "frontend/js/index.tsx",
   "scripts": {
-    "test": "jest",
-    "test:watch": "npm test -- --watch",
-    "test:update": "npm test -- --u",
     "check": "tsc --noEmit",
     "dev": "concurrently -k -n TSC,WEBPACK -c red,cyan \"tsc --noEmit --watch\" \"webpack serve --mode=development --hot\"",
     "dev:strict": "npm run check && npm run dev",
@@ -21,8 +18,8 @@
     "format": "prettier --write frontend",
     "format:check": "prettier --check frontend",
     "tsc": "tsc -p ./tsconfig.json --noEmit",
-    "coverage": "jest --coverage",
-    "openapi-ts": "openapi-ts"
+    "openapi:download": "node scripts/openapi-download.mjs $(cat openapi/CONTRACT_VERSION)",
+    "openapi:ts": "openapi-ts"
   },
   "dependencies": {
     "@hey-api/openapi-ts": "^0.45.0",

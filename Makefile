@@ -12,7 +12,7 @@ docker_dev:
 
 openapi:
 	@echo -e "\033[32m[INFO] Gerando client TypeScript via OpenAPI (host)\033[0m"
-	npm run openapi-ts
+	npm run openapi:ts
 
 docker_down:
 	@echo -e "\033[32m[INFO] Parando e removendo containers\033[0m"
