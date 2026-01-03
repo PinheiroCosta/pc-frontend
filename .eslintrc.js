@@ -13,6 +13,10 @@ module.exports = {
     "prettier",
   ],
   rules: {
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
@@ -55,8 +59,9 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["openapi-ts.config.ts"],
+      files: ["openapi-ts.config.ts", "*.config.js"],
       rules: {
+        "@typescript-eslint/no-var-requires": "off",
         "import/no-extraneous-dependencies": [
           "error",
           { devDependencies: true },

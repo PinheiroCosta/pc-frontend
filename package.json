@@ -16,7 +16,10 @@
     "dev": "concurrently -k -n TSC,WEBPACK -c red,cyan \"tsc --noEmit --watch\" \"webpack serve --mode=development --hot\"",
     "dev:strict": "npm run check && npm run dev",
     "build": "NODE_ENV=production tsc && webpack --progress --bail --mode=production",
-    "lint": "eslint frontend --fix",
+    "lint": "eslint frontend",
+    "lint:fix": "eslint frontend --fix",
+    "format": "prettier --write frontend",
+    "format:check": "prettier --check frontend",
     "tsc": "tsc -p ./tsconfig.json --noEmit",
     "coverage": "jest --coverage",
     "openapi-ts": "openapi-ts"
