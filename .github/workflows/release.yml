@@ -9,6 +9,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  id-token: write
 
 jobs:
   release:
@@ -18,7 +19,7 @@ jobs:
       - name: Checkout dev
         uses: actions/checkout@v4
         with:
-          ref: dev
+          ref: ${{ github.event.inputs.branch }}
           fetch-depth: 0
 
       - name: Setup node
@@ -34,4 +35,4 @@ jobs:
         uses: googleapis/release-please-action@v4
         with:
           release-type: node
-          target-branch: dev
+          target-branch: ${{ github.event.inputs.branch }}
