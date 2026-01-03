@@ -25,7 +25,7 @@ jobs:
 
       - name: Download OpenAPI schema
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BACKEND_GITHUB_TOKEN }}
         run: npm run openapi:download
 
       - name: Generate OpenAPI client
