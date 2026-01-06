@@ -11,17 +11,21 @@ permissions:
 
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'test/cloudflare-ci' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download build artifact from latest build
+        uses: dawidd6/action-download-artifact@v6
         with:
+          workflow: build.yml
           name: frontend-build
           path: ./dist
-          workflow: Build Frontend
-          run-id: ${{ github.event.workflow_run.id }}
+          workflow_conclusion: success
+          branch: test/cloudflare-ci
 
       - name: Verify artifact
         run: |
