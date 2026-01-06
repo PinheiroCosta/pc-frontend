@@ -1,0 +1,35 @@
+name: Deploy Frontend to Cloudflare Pages
+
+on:
+  workflow_run:
+    workflows: ["Build Frontend"]
+    types:
+      - completed
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-build
+          path: ./dist
+
+      - name: Verify artifact
+        run: |
+          test -f ./dist/index.html
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: romweb-frontend
+          directory: ./dist
+          branch: main

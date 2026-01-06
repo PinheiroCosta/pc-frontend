@@ -22,7 +22,7 @@ module.exports = (env, argv) => {
     entry: "./frontend/js/index.tsx",
 
     output: {
-      path: path.resolve(__dirname, "frontend/webpack_bundles/assets"),
+      path: path.resolve(__dirname, "dist/"),
       filename: isDev ? "[name].js" : "bundle.[contenthash].js",
       publicPath: "/",
       clean: true,
@@ -36,7 +36,7 @@ module.exports = (env, argv) => {
       static: {
         directory: path.resolve(
           __dirname,
-          "frontend/webpack_bundles/assets"
+          "dist/"
         ),
         publicPath: "/",
       },
