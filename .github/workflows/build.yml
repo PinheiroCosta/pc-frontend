@@ -2,9 +2,7 @@ name: Build Frontend
 
 on:
   push:
-    branches:
-      - main
-      - test/cloudflare-ci
+    branches: [test/cloudflare-ci]
 
 permissions:
   contents: read

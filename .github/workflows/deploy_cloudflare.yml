@@ -3,8 +3,7 @@ name: Deploy Frontend to Cloudflare Pages
 on:
   workflow_run:
     workflows: ["Build Frontend"]
-    types:
-      - completed
+    types: [completed]
 
 permissions:
   contents: read
@@ -18,18 +17,44 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download build artifact from latest build
-        uses: dawidd6/action-download-artifact@v6
+      - name: Download build artifact from triggering workflow run
+        uses: actions/github-script@v6
         with:
-          workflow: build.yml
-          name: frontend-build
-          path: ./dist
-          workflow_conclusion: success
-          branch: test/cloudflare-ci
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const runId = context.payload.workflow_run.id;
+
+            // Lista todos os artifacts do workflow run que disparou o evento
+            const artifactResp = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: runId
+            });
+
+            const artifact = artifactRespo.data.artifacts.dinf(a => a.name === "frontend-build")
+            if (!artifact) {
+              throw new Error("Artifact 'frontend-build' not found in workflow run " + runId);
+            }
+
+            const downloadResp = await github.rest.actions.downloadArttifact({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              artifact_id: artifact.id,
+              archive_ormat: "zip"
+            });
+
+            const tempDir = '${{ runner.temp }}/artifacts';
+            if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);
+
+            const artifactPath = path.join(tempDir, "frontend-build.zip");
+            fs.writeFileSync(artifactPath, Buffer.from(downloadResp.data));
+      - name: Unzip artifact
+        run: |
+          unzip "${{ runner.temp }}/artifacts/frontend-build.zip" -d ./dist
 
       - name: Verify artifact
-        run: |
-          test -f ./dist/index.html
+        run: test - ./dist/index.html
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1
@@ -38,4 +63,4 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: romweb-frontend
           directory: ./dist
-          branch: main
+          branch: ${{ github.ref_name }}
