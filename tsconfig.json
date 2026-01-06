@@ -6,11 +6,13 @@
   "include": [
     "./frontend/**/*.ts",
     "./frontend/**/*.tsx",
+    "./frontend/**/*.d.ts",
     "**/*.test.ts",
     "**/*.test.tsx"
   ],
   "exclude": [
     "node_modules",
-    "build"
+    "build",
+    "frontend/**/__tests__/**"
   ]
 }
