@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'test/cloudflare-ci' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -20,6 +20,8 @@ jobs:
         with:
           name: frontend-build
           path: ./dist
+          workflow: Build Frontend
+          run-id: ${{ github.event.workflow_run.id }}
 
       - name: Verify artifact
         run: |
