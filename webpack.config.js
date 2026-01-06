@@ -1,7 +1,6 @@
 const path = require("path");
 
 const Dotenv = require("dotenv-webpack");
-const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
@@ -9,6 +8,11 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 module.exports = (env, argv) => {
   const isDev = argv.mode === "development";
   const nodeModulesDir = path.resolve(__dirname, "node_modules");
+
+  let ReactRefreshWebpackPlugin;
+  if (isDev) {
+    ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+  }
 
   return {
     mode: isDev ? "development" : "production",
