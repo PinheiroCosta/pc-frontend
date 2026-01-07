@@ -1,22 +1,19 @@
 name: Cleanup Release-Please Branches
 
 on:
-  workflow_run:
-    workflows: ["Release"]
-    types:
-      - completed
+  release:
+    types: [published]
 
 permissions:
   contents: write
 
 jobs:
   delete-release-branches:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: List release-please branches
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_BRANCHES }}
         run: |
           echo "Finding release-please branches..."
           branches=$(gh api repos/${{ github.repository }}/branches --jq '.[] | select(.name | startswith("release-please--branches--")) | .name')
