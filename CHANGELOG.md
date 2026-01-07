@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.2](https://github.com/PinheiroCosta/pc-frontend/compare/v1.0.1...v1.0.2) (2026-01-07)
+
+
+### Bug Fixes
+
+* **ci:** correct deploy-prod condition on release event ([d05d766](https://github.com/PinheiroCosta/pc-frontend/commit/d05d766f9edfc913747fefa86411438f20dff240))
+* **ci:** correct deploy-prod condition on release event ([f388fc6](https://github.com/PinheiroCosta/pc-frontend/commit/f388fc6f1d0eaa407130a90a4fe0651cd0675eca))
+
 ## [1.0.1](https://github.com/PinheiroCosta/pc-frontend/compare/v1.0.0...v1.0.1) (2026-01-07)
 
 
