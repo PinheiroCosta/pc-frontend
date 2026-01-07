@@ -55,7 +55,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: romweb-frontend
           directory: ./dist
-          branch: ${{ env.$TEMP_BRANCH }}
+          branch: ${{ env.TEMP_BRANCH }}
           wranglerVersion: 2
 
       - name: Clean up temporary branch
