@@ -63,7 +63,7 @@ jobs:
           git push origin --delete "$TEMP_BRANCH"
 
   deploy-prod:
-    if: ${{ github.event_name == 'release' && github.event.release.prerelease == false }}
+    if: ${{ !github.event.release.prerelease }}
     runs-on: ubuntu-latest
     steps:
       - name: Download build artifact from Build workflow
