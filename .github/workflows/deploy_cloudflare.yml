@@ -3,35 +3,77 @@ name: Deploy Frontend to Cloudflare Pages
 on:
   workflow_run:
     workflows: ["Build Frontend"]
-    types:
-      - completed
+    types: [completed]
+
+  release:
+    types: [published]
 
 permissions:
-  contents: read
+  contents: write
+  id-token: write
+  actions: read
 
 jobs:
-  deploy:
+  deploy-preview:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout main
         uses: actions/checkout@v4
-
-      - name: Download build artifact from latest build
-        uses: dawidd6/action-download-artifact@v6
         with:
-          workflow: build.yml
+          ref: main
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
           name: frontend-build
           path: ./dist
-          workflow_conclusion: success
-          branch: main
 
       - name: Verify artifact
         run: |
           test -f ./dist/index.html
 
-      - name: Deploy to Cloudflare Pages
+      - name: Generate temporary branch for Preview
+        run: |
+          TEMP_BRANCH="preview/${GITHUB_RUN_ID}"
+          git checkout -v "$TEMP_BRANCH"
+          git push origin "$TEMP_BRANCH"
+
+      - name: Deploy to Cloudflare Pages (Preview)
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: romweb-frontend
+          directory: ./dist
+          branch: $TEMP_BRANCH
+          wranglerVersion: 2
+
+      - name: Clean up temporary branch
+        run: |
+          git push origin --delete "$TEMP_BRANCH"
+
+  deploy-prod:
+    if: ${{ github.event_name == 'release' && github.event.release.prerelease == false }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-build
+          path: ./dist
+
+      - name: Verify artifact
+        run: |
+          test -f ./dist/index.html
+
+      - name: Deploy to Cloudflare Pages (Production)
         uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -39,3 +81,4 @@ jobs:
           projectName: romweb-frontend
           directory: ./dist
           branch: main
+          wranglerVersion: 2
