@@ -29,11 +29,14 @@ jobs:
         with:
           node-version: 20
 
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
+      - name: Download build artifact from Build workflow
+        uses: dawidd6/action-download-artifact@v6
         with:
+          workflow: build.yml
+          workflow_conclusion: success
           name: frontend-build
           path: ./dist
+          run_id: ${{ github.event.workflow_run.id }}
 
       - name: Verify artifact
         run: |
@@ -41,9 +44,9 @@ jobs:
 
       - name: Generate temporary branch for Preview
         run: |
-          TEMP_BRANCH="preview/${GITHUB_RUN_ID}"
-          git checkout -v "$TEMP_BRANCH"
-          git push origin "$TEMP_BRANCH"
+          echo "TEMP_BRANCH=preview/${GITHUB_RUN_ID}" >> $GITHUB_ENV
+          git checkout -b "preview/${GITHUB_RUN_ID}"
+          git push origin "preview/${GITHUB_RUN_ID}"
 
       - name: Deploy to Cloudflare Pages (Preview)
         uses: cloudflare/pages-action@v1
@@ -52,7 +55,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: romweb-frontend
           directory: ./dist
-          branch: $TEMP_BRANCH
+          branch: ${{ env.$TEMP_BRANCH }}
           wranglerVersion: 2
 
       - name: Clean up temporary branch
@@ -63,9 +66,12 @@ jobs:
     if: ${{ github.event_name == 'release' && github.event.release.prerelease == false }}
     runs-on: ubuntu-latest
     steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
+      - name: Download build artifact from Build workflow
+        uses: dawidd6/action-download-artifact@v6
         with:
+          workflow: build.yml
+          workflow_conclusion: success
+          branch: main
           name: frontend-build
           path: ./dist
 
