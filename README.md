@@ -1,101 +1,50 @@
 # pc-frontend
+Frontend do site **pinheirocosta.com**, hospedado no **Cloudflare Pages**.
+Este projeto é público e pode ser executado localmente sem dependência do backend em tempo de build ou runtime.
 
-Frontend do site **pinheirocosta.com**, hospedado no **Cloudflare Pages**, construído de forma totalmente desacoplada do backend.
-
-Este repositório é **público por design**.
-
-## Objetivo
-
-- Garantir disponibilidade do site mesmo com indisponibilidade do backend.
-- Isolar responsabilidades entre frontend e backend.
-- Consumir o backend exclusivamente via contrato OpenAPI.
-- Permitir builds determinísticos e independentes.
-
-**Regra**: o frontend não depende do backend em execução, nem em tempo de build nem em runtime.
+## Visão geral
+Este frontend é uma SPA estática construída em React e TypeScript. Ele consome APIs exclusivamente por meio de um contrato OpenAPI previamente versionado. O backend atua apenas como fonte desse contrato, nunca como dependência direta de execução. O build do frontend é determinístico. Se o contrato OpenAPI estiver ausente, inválido ou inconsistente, o processo de build falha de forma explícita.
 
 ## Stack
-
 - React + TypeScript
 - Webpack
-- Client gerado via OpenAPI
-- Cloudflare Pages
+- Client TypeScript gerado via OpenAPI
+- Cloudflare Pages (deploy)
 
 ## Arquitetura
+O backend gera e versiona um schema OpenAPI, publicado como release asset. Este repositório seleciona explicitamente a versão do contrato, gera o client TypeScript correspondente e produz um build estático. O frontend conhece apenas o contrato OpenAPI. Ele nunca depende da implementação do backend nem assume sua disponibilidade.
 
-Backend (privado)
-→ Geração do OpenAPI
-→ Release com schema versionado (asset)
+## Contrato OpenAPI
+A versão ativa do contrato é definida no arquivo `openapi/CONTRACT_VERSION`. O schema correspondente é armazenado em `openapi/schema.yml`. O contrato é a única fonte de verdade para comunicação com o backend. Se ele não existir ou estiver inválido, o build deve falhar.
 
-Frontend (este repositório)
-→ Seleciona versão do contrato
-→ Gera client TypeScript
-→ Build estático
-→ Deploy no Cloudflare Pages
-→ backend atua como orquestrador de serviços.  
-→ frontend conhece apenas o **contrato OpenAPI**, nunca a implementação.
+## Geração do client API
+O client TypeScript é gerado automaticamente a partir do schema OpenAPI. O código gerado não deve ser editado manualmente e fica localizado em `frontend/js/api`. 
+Os scripts `npm run openapi:download` e `npm run openapi:ts` são responsáveis, respectivamente, por baixar o schema da versão configurada e gerar o client a partir dele.
 
-## Contrato com o Backend
+## Rodando localmente
+Pré-requisitos:
+- Node.js (versão LTS recomendada)
+- npm
 
-- O contrato é definido por um arquivo OpenAPI (YAML/JSON).
-- O schema é publicado como **Release Asset** no repositório do backend.
-- Este repositório **não gera o schema**, mas **versiona explicitamente a versão do contrato consumido**.
-- A versão ativa do contrato é definida em `openapi/CONTRACT_VERSION`.
-- O schema correspondente é armazenado em `openapi/schema.yml`.
+Após instalar as dependências, basta baixar o contrato OpenAPI, gerar o client e iniciar o servidor de desenvolvimento:
 
-**Regra fundamental**:  
-Se o contrato não existir, não for acessível ou for inválido, o build do frontend deve falhar.
+```bash
+npm install
+npm run openapi:download
+npm run openapi:ts
+npm run dev
 
-## Geração do Client API
+```
+O backend não precisa estar em execução.
 
-- O client TypeScript é gerado automaticamente a partir do OpenAPI.
-- Código gerado **não deve ser editado manualmente**.
-- O diretório `frontend/js/api` contém apenas código derivado do contrato.
-- Mudanças no backend exigem uma nova release do backend para refletirem aqui.
+## Build e deploy
+O build é executado via GitHub Actions e o deploy é automático no Cloudflare Pages. Apenas variáveis de ambiente relacionadas ao frontend são utilizadas. Nenhum segredo do backend é armazenado neste repositório.
 
-Scripts relevantes:
-- `npm run openapi:download` – baixa o schema da versão definida em `CONTRACT_VERSION`.
-- `npm run openapi:ts` – gera o client TypeScript a partir do schema ativo.
+## Comportamento em falhas de API
+O frontend não assume disponibilidade do backend. Em caso de falhas, a interface deve permanecer funcional sempre que possível, apresentando mensagens claras ao usuário.
 
-## Fluxo de Branches e Releases
-
-- `dev`
-  - Branch de desenvolvimento.
-  - Push direto permitido apenas para maintainer.
-  - Colaboradores trabalham via PR.
-  - Lint obrigatório em push e PR.
-
-- `main`
-  - Branch estável.
-  - Recebe apenas merges explícitos após release.
-
-### Release
-
-- O release é disparado **manualmente** via GitHub Actions na branch `dev`.
-- O `release-please`:
-  - Gera versão.
-  - Atualiza changelog.
-  - Cria tag.
-- Após o release, o maintainer realiza o merge de `dev` para `main`.
-
-## Build e Deploy
-
-- Build executado via GitHub Actions.
-- Deploy automático no Cloudflare Pages.
-- Variáveis de ambiente são exclusivamente de frontend.
-- Nenhum segredo do backend é armazenado neste repositório.
-
-## Comportamento em Falhas do Backend
-
-- Falhas de API devem resultar em:
-  - Mensagens amigáveis ao usuário.
-  - Interface funcional sempre que possível.
-- O frontend **não assume disponibilidade do backend**.
-
-## Decisões Arquiteturais
-
-- Frontend público: intencional.
-- Backend privado: intencional.
-- OpenAPI como contrato único: obrigatório.
-- Release Asset como fonte do schema.
-- Build desacoplado do backend em execução.
-- Estrutura `frontend/js/` mantida por compatibilidade histórica.
+## Convenções importantes
+- Frontend público: intencional
+- Backend privado: intencional
+- OpenAPI é o único contrato
+- Build sempre desacoplado do backend em execução
