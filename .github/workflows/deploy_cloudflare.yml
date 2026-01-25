@@ -1,10 +1,6 @@
 name: Deploy Frontend to Cloudflare Pages
 
 on:
-  workflow_run:
-    workflows: ["Build Frontend"]
-    types: [completed]
-
   release:
     types: [published]
 
@@ -14,56 +10,7 @@ permissions:
   actions: read
 
 jobs:
-  deploy-preview:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout main
-        uses: actions/checkout@v4
-        with:
-          ref: main
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Download build artifact from Build workflow
-        uses: dawidd6/action-download-artifact@v6
-        with:
-          workflow: build.yml
-          workflow_conclusion: success
-          name: frontend-build
-          path: ./dist
-          run_id: ${{ github.event.workflow_run.id }}
-
-      - name: Verify artifact
-        run: |
-          test -f ./dist/index.html
-
-      - name: Generate temporary branch for Preview
-        run: |
-          echo "TEMP_BRANCH=preview/${GITHUB_RUN_ID}" >> $GITHUB_ENV
-          git checkout -b "preview/${GITHUB_RUN_ID}"
-          git push origin "preview/${GITHUB_RUN_ID}"
-
-      - name: Deploy to Cloudflare Pages (Preview)
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: romweb-frontend
-          directory: ./dist
-          branch: ${{ env.TEMP_BRANCH }}
-          wranglerVersion: 2
-
-      - name: Clean up temporary branch
-        run: |
-          git push origin --delete "$TEMP_BRANCH"
-
   deploy-prod:
-    if: ${{ !github.event.release.prerelease }}
     runs-on: ubuntu-latest
     steps:
       - name: Download build artifact from Build workflow
@@ -88,3 +35,29 @@ jobs:
           directory: ./dist
           branch: main
           wranglerVersion: 2
+
+  cleanup:
+    needs: deploy-prod
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Github CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gh
+
+      - name: Delete release-please branches
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "Finding release-please branches..."
+          branches=$(gh api repos/${{ github.repository }}/branches --jq '.[] | select(.name | startswith("release-please--branches--")) | .name')
+
+          if [ -z "$branches" ]; then
+            echo "No release-please branches to delete"
+            exit 0
+          fi
+
+          for branch in $branches; do
+            echo "Deleting branch $branch"
+            gh api -X DELETE repos/${{ github.repository }}/git/refs/heads/$branch
+          done
