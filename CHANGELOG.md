@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.3](https://github.com/PinheiroCosta/pc-frontend/compare/v1.0.2...v1.0.3) (2026-01-25)
+
+
+### Bug Fixes
+
+* **ci:** serialize deploy-prod and cleanup in release workflow ([7f854ab](https://github.com/PinheiroCosta/pc-frontend/commit/7f854abe64624e9d03e3ace0f31f49b456e8f879))
+* **ci:** serialize deploy-prod and cleanup in release workflow ([aa326ff](https://github.com/PinheiroCosta/pc-frontend/commit/aa326ffd05645d97be45b96f79b7127c7a52f8c6))
+
 ## [1.0.2](https://github.com/PinheiroCosta/pc-frontend/compare/v1.0.1...v1.0.2) (2026-01-07)
 
 
